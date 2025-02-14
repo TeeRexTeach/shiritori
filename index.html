@@ -1157,6 +1157,22 @@
         versusGameStarted = 0;
       }
       // delayCallback(() => console.log('Ran after 1 second'), 1000);
+      
+      var input1 = document.getElementById("p1Name");
+        input1.addEventListener("keypress", function(event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("confirmP1Name").click();
+          }
+        });
+        
+      var input2 = document.getElementById("p2Name");
+        input2.addEventListener("keypress", function(event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("confirmP2Name").click();
+          }
+        });
         
     </script>
 </body>
