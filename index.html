@@ -228,7 +228,7 @@
         <button onclick = "resetP1Name()" id = "resetP1Name" class = "hidden">Reset P1 name</button>
         <br>
           <div class="container">
-            <p id="vsTimer1" class = "hidden">P1 time left: 180s</p>
+            <p id="vsTimer1" class = "hidden">P1 time left: 120s</p>
             <p id="reduceTimer1" class = "line hidden">-10s!</p>
           </div>
         </div>
@@ -240,7 +240,7 @@
           <button onclick = "resetP2Name()" id = "resetP2Name" class = "hidden">Reset P2 name</button>
           <br>
           <div class = "container">
-            <p id="vsTimer2" class = "hidden">P2 time left: 180s</p>
+            <p id="vsTimer2" class = "hidden">P2 time left: 120s</p>
             <p id="reduceTimer2" class = "line hidden">-10s!</p>
           </div>
         </div>
@@ -918,10 +918,10 @@
           document.getElementById('startVersusGameButton').classList.add("hidden");
           document.getElementById('vsTimer1').classList.remove("hidden");
           document.getElementById('vsTimer2').classList.remove("hidden");
-          timeLeftP1 = 180;
-          timeLeftP2 = 180;
-          document.getElementById('vsTimer1').textContent = "P1 time left: 180s";
-          document.getElementById('vsTimer2').textContent = "P2 time left: 180s";
+          timeLeftP1 = 120;
+          timeLeftP2 = 120;
+          document.getElementById('vsTimer1').textContent = "P1 time left: 120s";
+          document.getElementById('vsTimer2').textContent = "P2 time left: 120s";
           activePlayer = (getRandomInt(2)+1);
           if (activePlayer == 1){
             startTimer1();
@@ -1014,8 +1014,8 @@
         }
         
         
-        let timeLeftP1 = 180;
-        let timeLeftP2 = 180;
+        let timeLeftP1 = 120;
+        let timeLeftP2 = 120;
         
         //clearInterval(timerInterval) resets the time interval
         function startTimer1() {
