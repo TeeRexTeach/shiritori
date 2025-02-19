@@ -426,26 +426,33 @@
         async function submitWord() {
             let input = document.getElementById('wordInput').value.trim().toLowerCase();
             let status = document.getElementById('status');
-            
-            if (input === "") return;
+            document.getElementById('submitWordButton').disabled = true;
+            if (input === "") {
+              document.getElementById('submitWordButton').disabled = false;
+              return;
+            }
             
             if (excludedWordList.includes(input)) {
               status.textContent = "Invalid word! Please enter a real word.";
+              document.getElementById('submitWordButton').disabled = false;
               return;
             }
             
             if (!(await isValidWord(input))) {
                 status.textContent = "Invalid word! Please enter a real word.";
+                document.getElementById('submitWordButton').disabled = false;
                 return;
             }
             if (words.length > 0) {
                 let lastWord = words[words.length - 1];
                 if (input[0] !== lastWord[lastWord.length - 1]) {
                     status.textContent = "Incorrect! The word must start with '" + lastWord[lastWord.length - 1] + "'.";
+                    document.getElementById('submitWordButton').disabled = false;
                     return;
                 }
                 if (words.includes(input)) {
                     status.textContent = "This word has already been used! Try another one.";
+                    document.getElementById('submitWordButton').disabled = false;
                     return;
                 }
             }
@@ -458,6 +465,7 @@
             document.getElementById('nextLetter').textContent = input[input.length - 1];
             document.getElementById('wordInput').value = "";
             status.textContent = "";
+            document.getElementById('submitWordButton').disabled = false;
             // showDinoAnimation();
             // sendDataToSheet();
             // Send the word to Google Sheets
@@ -601,11 +609,12 @@
         async function submitRankedWord() {
             let input = document.getElementById('rankedWordInput').value.trim().toLowerCase();
             let status = document.getElementById('rankedStatus');
-            
+            document.getElementById('submitRankedWordButton').disabled = true;
             if (input === "") return;
             
             if (excludedWordList.includes(input)) {
               status.textContent = "Invalid word! Please enter a real word.";
+              document.getElementById('submitRankedWordButton').disabled = false;
               mistakes++;
               reduceHp();
               isGameOver();
@@ -614,6 +623,7 @@
             
             if (!(await isValidWord(input))) {
                 status.textContent = "Invalid word! Please enter a real word.";
+                document.getElementById('submitRankedWordButton').disabled = false;
                 mistakes++;
                 reduceHp();
                 // document.getElementById('mistakes').textContent = "Mistakes: " + mistakes;
@@ -627,6 +637,7 @@
                 
             if (input.length < 3){
               status.textContent = "Enter a word with 3 letters or more!";
+              document.getElementById('submitRankedWordButton').disabled = false;
               mistakes++;
               reduceHp();
               // document.getElementById('mistakes').textContent = "Mistakes: " + mistakes;
@@ -643,6 +654,7 @@
                 //lastRankedWord.length -1 = the last letter
                 if (input[0] !== lastRankedWord[lastRankedWord.length - 1]) {
                     status.textContent = "Incorrect! The word must start with '" + lastRankedWord[lastRankedWord.length - 1] + "'.";
+                    document.getElementById('submitRankedWordButton').disabled = false;
                     mistakes++;
                     reduceHp();
                     // document.getElementById('mistakes').textContent = "Mistakes: " + mistakes;
@@ -654,6 +666,7 @@
                 }
                 if (rankedWords.includes(input)) {
                     status.textContent = "This word has already been used! Try another one.";
+                    document.getElementById('submitRankedWordButton').disabled = false;
                     mistakes++;
                     reduceHp();
                     // document.getElementById('mistakes').textContent = "Mistakes: " + mistakes;
@@ -675,6 +688,7 @@
             document.getElementById('rankedLastWord').textContent = input;
             document.getElementById('rankedNextLetter').textContent = input[input.length - 1];
             document.getElementById('rankedWordInput').value = "";
+            document.getElementById('submitRankedWordButton').disabled = false;
             // document.getElementById('mistakes').textContent = "Mistakes: " + mistakes;
             status.textContent = "";
             // showDinoAnimation();
@@ -994,11 +1008,12 @@
         async function submitVersusWord() {
             let input = document.getElementById('versusWordInput').value.trim().toLowerCase();
             let status = document.getElementById('versusStatus');
-            
+            document.getElementById('submitVersusWordButton').disabled = true;
             if (input === "") return;
             
             if (excludedWordList.includes(input)) {
               status.textContent = "Invalid word! Please enter a real word.";
+              document.getElementById('submitVersusWordButton').disabled = false;
               //timer reduce, check time end. check end game
               reducePlayerTimer();
               endVersusGame();
@@ -1007,6 +1022,7 @@
             
             if (!(await isValidWord(input))) {
                 status.textContent = "Invalid word! Please enter a real word.";
+                document.getElementById('submitVersusWordButton').disabled = false;
                 //timer reduce, check time end. check end game
                 reducePlayerTimer();
                 endVersusGame();
@@ -1016,6 +1032,7 @@
                 
             if (input.length < 3){
               status.textContent = "Enter a word with 3 letters or more!";
+              document.getElementById('submitVersusWordButton').disabled = false;
               //timer reduce, check time end. check end game
               reducePlayerTimer();
               endVersusGame();
@@ -1028,6 +1045,7 @@
                 //lastVersusWord.length -1 = the last letter
                 if (input[0] !== lastVersusWord[lastVersusWord.length - 1]) {
                     status.textContent = "Incorrect! The word must start with '" + lastVersusWord[lastVersusWord.length - 1] + "'.";
+                    document.getElementById('submitVersusWordButton').disabled = false;
                     //timer reduce, check time end. check end game
                     reducePlayerTimer();
                     endVersusGame();
@@ -1035,6 +1053,7 @@
                 }
                 if (versusWords.includes(input)) {
                     status.textContent = "This word has already been used! Try another one.";
+                    document.getElementById('submitVersusWordButton').disabled = false;
                     //timer reduce, check time end. check end game
                     reducePlayerTimer();
                     endVersusGame();
@@ -1050,7 +1069,8 @@
             document.getElementById('versusWords').innerHTML = versusWords.join(' → ');
             document.getElementById('versusLastWord').textContent = input;
             document.getElementById('versusNextLetter').textContent = input[input.length - 1];
-            document.getElementById('versusWordInput').value = "";   
+            document.getElementById('versusWordInput').value = "";
+            document.getElementById('submitVersusWordButton').disabled = false;
         }
         
         
