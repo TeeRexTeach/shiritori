@@ -139,8 +139,8 @@
         <p>Enter a word that starts with the last letter of the previous word!</p>
         <p>Last word: <span id="lastWord" class = "lastWord">None</span></p>
         <p>Next letter: <span id="nextLetter" class = "nextLetter">Any</span></p>
-        <input type="text" id="wordInput" placeholder="Enter a word" onkeypress="handleKeyPress(event)" autocomplete="off">
-        <button onclick="submitWord()">Submit</button>
+        <input type="text" id="wordInput" placeholder="Enter a word" autocomplete="off">
+        <button id="submitWordButton" onclick="submitWord()">Submit</button>
         <p id="status"></p>
         <p>Score: <span id="score">0</span></p>
         <div id="words"></div>
@@ -160,7 +160,7 @@
         </div>
         <p><button onclick = "showRules()" id = "showRules" class = "rule hidden";>(show rules)</button></p>
         <p id = "enterNameText">Enter your name: </p>
-        <input type="text" id="playerName" placeholder="Your name" onkeypress="handleKeyPress(event)"> 
+        <input type="text" id="playerName" placeholder="Your name"> 
         <p><button onclick="confirmName()" id = confirmNameButton >Confirm</button></p>
         <p id="playerNameC" class="hidden"> Player name:</p>
         <p><button onclick="resetName()" id="resetName" class="hidden">Reset name</button></p>
@@ -175,8 +175,8 @@
             </p>
             <p>Last word: <span id="rankedLastWord" class = "lastWord">None</span></p>
             <p>Next letter: <span id="rankedNextLetter" class = "nextLetter">Any</span></p>
-            <input type="text" id="rankedWordInput" placeholder="Enter a word" onkeypress="handleKeyPress(event)" autocomplete="off">
-            <button onclick="submitRankedWord()">Submit</button>
+            <input type="text" id="rankedWordInput" placeholder="Enter a word" autocomplete="off">
+            <button id = "submitRankedWordButton" onclick="submitRankedWord()">Submit</button>
             <p id="rankedStatus" style = "color: #d81b60"></p>
             <p>Score: <span id="rankedScore">0</span></p>
             <div id="rankedWords"></div>
@@ -250,8 +250,8 @@
             <p><span id = "playerTurn" class = "playerTurn"></span></p>
             <p>Last word: <span id="versusLastWord" class = "lastWord">None</span></p>
             <p>Next letter: <span id="versusNextLetter" class = "nextLetter">Any</span></p>
-            <input type="text" id="versusWordInput" placeholder="Enter a word" onkeypress="handleKeyPress(event)" autocomplete="off">
-            <button onclick="submitVersusWord()">Submit</button>
+            <input type="text" id="versusWordInput" placeholder="Enter a word" autocomplete="off">
+            <button id ="submitVersusWordButton" onclick="submitVersusWord()">Submit</button>
             <p id="versusStatus" style = "color: #d81b60"></p>
             <div id="versusWords"></div>
             <p><button onclick="endVersusGameButton()" id = "endVersusGameButton">End game</button></p>
@@ -284,13 +284,26 @@
         async function isValidWord(word) {
             let response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
             
+            document.getElementById('submitVersusWordButton').disabled = true;
+            document.getElementById('submitRankedWordButton').disabled = true;
+            document.getElementById('submitWordButton').disabled = true;
+            
             if (allowedWordList.includes(word)) {
-            return true;
+              document.getElementById('submitVersusWordButton').disabled = false;
+              document.getElementById('submitRankedWordButton').disabled = false;
+              document.getElementById('submitWordButton').disabled = false;
+              return true;
             }
             
             if (response.ok) {
+              document.getElementById('submitVersusWordButton').disabled = false;
+              document.getElementById('submitRankedWordButton').disabled = false;
+              document.getElementById('submitWordButton').disabled = false;
               return true;
             }
+            document.getElementById('submitVersusWordButton').disabled = false;
+            document.getElementById('submitRankedWordButton').disabled = false;
+            document.getElementById('submitWordButton').disabled = false;
         }
         
         // adding two dictionary apis (testing)
@@ -360,26 +373,53 @@
         // toggle modes end
         
         //Enter keypress event start. submit word / submit ranked word / confirm name 
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-              if (gameMode == 0) {
-                submitWord();
-              }
-              if (gameMode == 1) {
-                submitRankedWord();
-              }
+        // function handleKeyPress(event) {
+        //     if (event.key === "Enter") {
+        //       if (gameMode == 0) {
+        //         submitWord();
+        //       }
+        //       if (gameMode == 1) {
+        //         submitRankedWord();
+        //       }
+        //       if (gameMode == 1 && playerName == "") {
+        //         confirmName();
+        //       }
               
-              if (gameMode == 1 && playerName == "") {
-                confirmName();
-              }
+        //       if (gameMode == 2 && p1Name !== "" && p2Name !== "") {
+        //         submitVersusWord();
+        //       }
               
-              if (gameMode == 2 && p1Name !== "" && p2Name !== "") {
-                submitVersusWord();
-              }
-              
-            }
-        }
+        //     }
+        // }
         //Enter keypress event end
+        
+        document.getElementById("wordInput").addEventListener("keypress", function(event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("submitWordButton").click();
+          }
+        });
+        
+        document.getElementById("rankedWordInput").addEventListener("keypress", function(event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("submitRankedWordButton").click();
+          }
+        });
+        
+        document.getElementById("versusWordInput").addEventListener("keypress", function(event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("submitVersusWordButton").click();
+          }
+        });
+        
+        document.getElementById("playerName").addEventListener("keypress", function(event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("confirmNameButton").click();
+          }
+        });
         
         //normal mode code start
         //normal mode word checker / logic
@@ -1158,16 +1198,14 @@
       }
       // delayCallback(() => console.log('Ran after 1 second'), 1000);
       
-      var input1 = document.getElementById("p1Name");
-        input1.addEventListener("keypress", function(event) {
+        document.getElementById("p1Name").addEventListener("keypress", function(event) {
           if (event.key === "Enter") {
             event.preventDefault();
             document.getElementById("confirmP1Name").click();
           }
         });
         
-      var input2 = document.getElementById("p2Name");
-        input2.addEventListener("keypress", function(event) {
+        document.getElementById("p2Name").addEventListener("keypress", function(event) {
           if (event.key === "Enter") {
             event.preventDefault();
             document.getElementById("confirmP2Name").click();
