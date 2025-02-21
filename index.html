@@ -610,8 +610,10 @@
             let input = document.getElementById('rankedWordInput').value.trim().toLowerCase();
             let status = document.getElementById('rankedStatus');
             document.getElementById('submitRankedWordButton').disabled = true;
-            if (input === "") return;
-            
+            if (input === "") {
+                document.getElementById('submitRankedWordButton').disabled = false; 
+                return;
+            }
             if (excludedWordList.includes(input)) {
               status.textContent = "Invalid word! Please enter a real word.";
               document.getElementById('submitRankedWordButton').disabled = false;
